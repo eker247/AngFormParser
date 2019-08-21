@@ -1,0 +1,10 @@
+<p>form-parser works!</p>
+
+<form [formGroup]="form">
+  <div *ngFor="let item of controls">
+    <label>{{ item.controlLabel }}</label>
+    <input formControlName="{{item.controlName}}">
+  </div>
+</form>
+
+<button (click)="checkForm()">Check form</button>
