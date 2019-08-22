@@ -1,14 +1,12 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from '@angular/forms';
 
-
-
 export interface FormContainer {
   kindOfComponent: string; // our custom input
   name: string;
   label: string;
   type?: string;
-  options?: { label: string, value: string }[];
+  options?: { label: string, value: number }[];
   control: AbstractControl;
 }
 
@@ -20,9 +18,11 @@ export interface FormContainer {
 export class AppComponent {
   controls: FormContainer[];
   cars = [
-    { value: '1', label: 'Fiat' },
-    { value: '2', label: 'Volvo' },
+    { value: 1, label: 'Fiat' },
+    { value: 2, label: 'Volvo' },
   ];
+
+  optionsCounter = 3;
 
   constructor() {
     this.controls = [
@@ -39,13 +39,19 @@ export class AppComponent {
     ];
   }
 
-  addCar() {
-    this.cars = [ ...this.cars, { value: '3', label: 'Seat' } ];
+  addCar(carName: string) {
+    this.cars = [ ...this.cars, { value: this.optionsCounter++, label: carName } ];
     this.controls = this.controls.map(c => {
       if (c.name === 'favoriteCar') {
         c.options = this.cars;
       }
       return c;
     })
+  }
+
+  addOption(form: any) {
+    if (form && form.name) {
+      this.addCar(form.name);
+    }
   }
 }

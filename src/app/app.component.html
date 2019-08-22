@@ -1,2 +1,1 @@
-<app-form-parser [controls]="controls"></app-form-parser>
-<button (click)="addCar()">Add car</button>
+<app-form-parser [controls]="controls" (formChanged)="addOption($event)"></app-form-parser>
