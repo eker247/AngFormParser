@@ -16,12 +16,12 @@ export class FormParserComponent implements OnInit {
   ngOnInit() {
     this.form = new FormGroup({});
     this.controls.forEach(control => {
-      this.form.addControl(control.controlName, control.control);
+      this.form.addControl(control.name, control.control);
     });
   }
 
   checkForm() {
     console.log('Value:', this.form.value);
-    console.log('Validation:', this.form.touched, this.form.dirty, this.form.valid);
+    console.log(`Validation: touched: ${this.form.touched}, dirty: ${this.form.dirty}, valid: ${this.form.valid}`);
   }
 }

@@ -4,8 +4,11 @@ import { FormGroup, FormBuilder, Validators, FormControl, AbstractControl } from
 
 
 export interface FormContainer {
-  controlName: string;
-  controlLabel: string;
+  kindOfComponent: string; // our custom input
+  name: string;
+  label: string;
+  type?: string;
+  options?: { label: string, value: string }[];
   control: AbstractControl;
 }
 
@@ -16,19 +19,33 @@ export interface FormContainer {
 })
 export class AppComponent {
   controls: FormContainer[];
+  cars = [
+    { value: '1', label: 'Fiat' },
+    { value: '2', label: 'Volvo' },
+  ];
 
-  constructor(private formBuilder: FormBuilder) {
+  constructor() {
     this.controls = [
-      { controlName: 'name', controlLabel: 'labelName', control: new FormControl('', [Validators.required])},
-      { controlName: 'email', controlLabel: 'labelEmail', control: new FormControl('', [Validators.required, Validators.email])}
+      { kindOfComponent: 'input', name: 'name', label: 'Name', type: 'text', control: new FormControl('', [Validators.required])},
+      { kindOfComponent: 'input', name: 'email', label: 'Email', type: 'email', control: new FormControl('', [Validators.required, Validators.email])},
+      { kindOfComponent: 'input', name: 'phone', label: 'Phone number', type: 'number', control: new FormControl('', [Validators.required, Validators.min(100000000), Validators.max(999999999)])},
+      { 
+        kindOfComponent: 'select',
+        name: 'favoriteCar',
+        label: 'Favorite Car',
+        options: this.cars,
+        control: new FormControl('', [Validators.required])
+      },
     ];
+  }
 
-    // this.form = formBuilder.group({
-    //   name: ['', [Validators.required]],
-    //   email: ['', [Validators.required, Validators.email]]
-    // });
-
-    // console.log('form', this.form);
-    // console.log('form2', f2);
+  addCar() {
+    this.cars = [ ...this.cars, { value: '3', label: 'Seat' } ];
+    this.controls = this.controls.map(c => {
+      if (c.name === 'favoriteCar') {
+        c.options = this.cars;
+      }
+      return c;
+    })
   }
 }
